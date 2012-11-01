@@ -1,0 +1,54 @@
+﻿@{
+    ViewBag.Title = "Index";
+}
+
+<p>Name: <input data-bind="value: selectedName"/></p>
+
+<table class="customers">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Address</th>
+            <th>Sex</th><th></th>
+        </tr>
+    </thead>
+    <tbody data-bind="foreach: customers">
+        <tr data-bind="event: { click: $root.select }">
+            <td data-bind="text: name"></td>
+            <td data-bind="text: address"></td>
+            <td data-bind="text: sex"></td>
+        </tr> 
+    </tbody>
+</table>
+
+<script>
+
+    function Customer(name, address, sex) {
+        var self = this;
+        self.name = name;
+        self.address = address;
+        self.sex = sex;
+    }
+
+    function IndexViewModel() {
+        var self = this;
+        self.customers = ko.observableArray([
+            new Customer("Microsoft", "www.microsoft.com", "M"),
+            new Customer("Google", "www.google.com", "F")
+        ]);
+
+        self.selectedName = ko.observable("selectedName");
+
+        self.select = function (data, event) {
+            console.log(data.name);
+
+            self.selectedName = data.name;
+        }
+    }
+
+    $(function () {
+        // Activates knockout.js
+        ko.applyBindings(new IndexViewModel());
+    });
+
+</script>
